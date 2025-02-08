@@ -1,5 +1,4 @@
 "use client";
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaPaw } from "react-icons/fa";
 
@@ -32,29 +31,21 @@ export default function AnimalBenefits() {
     },
   ];
 
-  // ✅ تخزين القيم العشوائية في حالة لتجنب عدم تطابق HTML بين السيرفر والعميل
-  const [pawStyles, setPawStyles] = useState([]);
-
-  useEffect(() => {
-    const generatedStyles = [...Array(10)].map(() => ({
-      top: `${Math.random() * 100}%`,
-      left: `${Math.random() * 100}%`,
-      fontSize: `${Math.random() * 2 + 1}rem`,
-      transform: `rotate(${Math.random() * 360}deg)`,
-      animationDelay: `${Math.random() * 1.5}s`,
-    }));
-    setPawStyles(generatedStyles);
-  }, []);
-
   return (
     <section className="relative bg-white dark:bg-gray-900 px-6 md:px-20 py-16 text-gray-900 dark:text-white text-center overflow-hidden">
-      {/* ✅ إصلاح الخلفية المتغيرة من خلال useState */}
+      {/* خلفية تحتوي على كفوف حيوانات متناثرة */}
       <div className="absolute inset-0 pointer-events-none">
-        {pawStyles.map((style, i) => (
+        {[...Array(10)].map((_, i) => (
           <FaPaw
             key={i}
             className="text-pink-300 dark:text-pink-600 opacity-30 absolute"
-            style={style}
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              fontSize: `${Math.random() * 2 + 1}rem`,
+              transform: `rotate(${Math.random() * 360}deg)`,
+              animation: `fadeIn 1s ease-in-out ${Math.random() * 1.5}s`,
+            }}
           />
         ))}
       </div>
@@ -68,11 +59,9 @@ export default function AnimalBenefits() {
           <div key={index} className="flex flex-col items-center">
             <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden shadow-lg border-4 border-pink-500 dark:border-pink-400">
               <Image
-                key={benefit.image} // ✅ إجبار React على تحديث الصورة عند الحاجة
                 src={benefit.image}
                 alt={benefit.title}
-                width={160} // ✅ تحديد الأبعاد لتجنب أخطاء الـ Hydration
-                height={160}
+                layout="fill"
                 objectFit="cover"
               />
             </div>
@@ -82,7 +71,7 @@ export default function AnimalBenefits() {
         ))}
       </div>
 
-      {/* ✅ إصلاح الـ Animation */}
+      {/* إضافة أنيميشن للكفوف */}
       <style jsx>{`
         @keyframes fadeIn {
           from {
