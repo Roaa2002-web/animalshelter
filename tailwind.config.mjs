@@ -1,10 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+module.exports = {
+  purge: ['./src/**/*.{js,ts,jsx,tsx}'], // Include all Next.js page files and components
+  darkMode: 'class', // or 'media' or 'false'
   theme: {
     extend: {
       colors: {
@@ -12,6 +9,9 @@ export default {
         foreground: "var(--foreground)",
       },
     },
+  },
+  variants: {
+    extend: {},
   },
   plugins: [],
 };
